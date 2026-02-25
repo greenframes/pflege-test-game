@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="de" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pflege-Entscheidungsspiel</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="style.css">
+ </head>
+ <body class="h-full overflow-auto">
+  <div id="app" class="min-h-full w-full" style="background: linear-gradient(135deg, #fff 0%, #fff 50%, #fff 100%);"><!-- Start Screen -->
+   <div id="start-screen" class="min-h-full flex flex-col items-center justify-center p-6">
+    <div class="max-w-lg w-full text-center animate-fade">
+     <div class="text-8xl mb-6">
+      <img src="Logo-Pflegeschule.png"  height="300px" width="300px " id="Logo">
+     </div>
+     <h1 id="title-display" class="text-4xl font-extrabold mb-4" style="color: #0f172a;">Pflege-Entscheidungsspiel</h1>
+     <p id="welcome-display" class="text-xl mb-8" style="color: #475569;">Erlebe den Alltag in der Pflege und triff wichtige Entscheidungen</p>
+     <div class="p-6 rounded-2xl mb-8" style="background: rgba(239, 156, 165, 0.8); backdrop-filter: blur(10px);">
+      <p class="text-lg" style="color: #ffffff;"><span class="font-bold">8 realistische Szenarien</span> warten auf dich.<br>
+        Jede Entscheidung zählt!</p>
+     </div><button onclick="startGame()" class="px-10 py-4 rounded-full text-xl font-bold text-white shadow-lg animate-pulse-soft" style="background: linear-gradient(135deg, #f39ca5 0%, #f39ca5 100%);"> 🚀 Spiel starten </button>
+    </div>
+   </div><!-- Game Screen -->
+   <div id="game-screen" class="min-h-full flex flex-col p-4 md:p-6 hidden"><!-- Progress Bar -->
+    <div class="w-full max-w-2xl mx-auto mb-6">
+     <div class="flex justify-between items-center mb-2"><span id="scenario-counter" class="font-bold" style="color: #0369a1;">Szenario 1 von 8</span> <span id="score-display" class="font-bold" style="color: #059669;">✓ 0 Punkte</span>
+     </div>
+     <div class="h-3 rounded-full overflow-hidden" style="background: rgba(243,156,165,0.6);">
+      <div id="progress-bar" class="h-full rounded-full progress-fill" style="width: 0%; background: linear-gradient(90deg, #0ea5e9, #10b981);"></div>
+     </div>
+    </div><!-- Scenario Card -->
+    <div class="flex-1 flex items-center justify-center">
+     <div id="scenario-card" class="w-full max-w-2xl rounded-3xl p-6 md:p-8 shadow-xl animate-fade" style="background: rgba(255,255,255,0.95);">
+      <div id="scenario-icon" class="scenario-icon text-center mb-4">
+       👴
+      </div>
+      <h2 id="scenario-title" class="text-2xl font-bold text-center mb-4" style="color: #0f172a;"></h2>
+      <p id="scenario-text" class="text-lg leading-relaxed mb-6" style="color: #475569;"></p>
+      <div id="options-container" class="space-y-3"></div>
+     </div>
+    </div>
+   </div><!-- Feedback Screen -->
+   <div id="feedback-screen" class="min-h-full flex flex-col items-center justify-center p-4 md:p-6 hidden">
+    <div id="feedback-card" class="w-full max-w-2xl rounded-3xl p-6 md:p-8 shadow-xl animate-fade" style="background: rgba(255,255,255,0.95);">
+     <div id="feedback-icon" class="text-6xl text-center mb-4"></div>
+     <h2 id="feedback-title" class="text-2xl font-bold text-center mb-4"></h2>
+     <p id="feedback-text" class="text-lg leading-relaxed mb-6 text-center" style="color: #475569;"></p>
+     <div id="feedback-tip" class="p-4 rounded-xl mb-6" style="background: #f39ca5;">
+      <p class="text-sm" style="color: #ffffff;"><strong>💡 Praxis-Tipp:</strong> <span id="tip-text"></span></p>
+     </div><button onclick="nextScenario()" class="w-full py-4 rounded-xl text-lg font-bold text-white" style="background: linear-gradient(135deg, #f39ca5 0%, #f39ca5 100%);"> Weiter → </button>
+    </div>
+   </div><!-- Result Screen -->
+   <div id="result-screen" class="min-h-full flex flex-col items-center justify-center p-4 md:p-6 hidden">
+    <div class="w-full max-w-2xl result-card">
+     <div class="rounded-3xl p-6 md:p-8 shadow-xl text-center" style="background: rgba(255,255,255,0.95);">
+      <div id="result-icon" class="text-8xl mb-4">
+       🎉
+      </div>
+      <h2 id="result-title" class="text-3xl font-extrabold mb-4" style="color: #0f172a;"></h2>
+      <p id="result-subtitle" class="text-xl mb-6" style="color: #475569;"></p>
+      <div class="p-6 rounded-2xl mb-6" style="background: linear-gradient(135deg, #ecfdf5 0%, #f0f9ff 100%);">
+       <div id="final-score" class="text-5xl font-extrabold mb-2" style="color: #059669;"></div>
+       <p style="color: #64748b;">von 8 möglichen Punkten</p>
+      </div>
+      <div id="result-message" class="p-4 rounded-xl mb-6" style="background: #fef3c7;">
+       <p class="text-lg" style="color: #92400e;"></p>
+      </div><button onclick="restartGame()" class="w-full py-4 rounded-xl text-lg font-bold text-white" style="background: linear-gradient(135deg, #f39ca5 0%, #f39ca5 100%);"> 🔄 Nochmal spielen </button>
+     </div>
+    </div>
+   </div>
+  </div>
+ <script src="script.js"></script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d35f8d2a77ce509',t:'MTc3MjAwOTYwMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
