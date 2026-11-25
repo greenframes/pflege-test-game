@@ -1,5 +1,5 @@
 // Offline-Cache: alles wird beim ersten Laden gespeichert. Bei neuer Version CACHE hochzählen.
-const CACHE = 'pflege-check-v1';
+const CACHE = 'pflege-check-v2';
 const FILES = ['./', 'index.html', 'manifest.webmanifest', 'icon-180.png', 'icon-192.png', 'icon-512.png'];
 
 self.addEventListener('install', e => {
